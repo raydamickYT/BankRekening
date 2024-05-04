@@ -1,19 +1,17 @@
-#include <iostream>
-#include <random>
-#include <SFML/Graphics.hpp>
+#include "BankRekening.h" 
+#include <iostream>       
 
-#include "BankRekening.h"
-#include "OperatorOverload.h"
-
-BankRekening::BankRekening(const std::string &d, double amt, double bal)
-    : date(d), amount(amt), balance(bal)
+// Implement the addition operator to handle deposit transactions
+BankRekening &BankRekening::operator+=(const Transactie &trans)
 {
+    balance += trans.amount; // Add the transaction amount to the balance
+    return *this;            // Return the current object to allow chaining
 }
 
-void BankRekening::DisplayBankingInfo()
+// Implement the subtraction operator to handle withdrawal transactions
+BankRekening &BankRekening::operator-=(const Transactie &trans)
 {
-    // std::stringstream ss;
-    // ss << std::fixed << std::setprecision(2) << balance; // Set precision to 2 decimal places
-    // std::string balanceStr = ss.str();
-
+    balance -= trans.amount; // Subtract the transaction amount from the balance
+    return *this;            // Return the current object to allow chaining
 }
+

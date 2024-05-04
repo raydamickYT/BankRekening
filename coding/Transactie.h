@@ -1,15 +1,10 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-#include "BankRekening.h"
-
 class Transactie
 {
 public:
     Transactie();
-    float TransactieHoeveelheid;
-    float NieuweTransactie(float Input, float BankRekeningWaarde);
-
-private:
-    BankRekening rekening;
-};
+    float amount; // Amount of the transaction
+    bool isDeposit; // True if deposit, false if withdrawal
+    Transactie(float amt, bool type) : amount(amt), isDeposit(type) {}};

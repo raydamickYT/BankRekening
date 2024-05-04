@@ -2,32 +2,47 @@
 #include <random>
 #include <SFML/Graphics.hpp>
 #include <chrono>
-#include <cmath>
 
 #include "BankRekening.h"
 #include "Transactie.h"
+
 int main()
 {
-    bool isRunning = true;
+    BankRekening rekening;
+    std::string type;
+    bool continueTransaction = true;
+    std::string input;
 
-    // BankRekening Rekening;
-    Transactie Transactie;
-
-    // Rekening.Run();
-    while (isRunning)
+    while (continueTransaction)
     {
-        float input;
-        std::cout << "Enter your transaction amount: ";
-        // std::getline(std::cin, input);
-        while (!(std::cin >> input))
+        std::cout << "Is this a deposit or a withdrawal? (d/w): ";
+        std::cin >> type;
+        while (type != "d" && type != "w")
         {
-            std::cout << "You entered tekst. Please enter a number." << std::endl;
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore invalid input
+            std::cout << "Invalid input. Please enter 'd' for deposit or 'w' for withdrawal: ";
+            std::cin >> type;
         }
 
-        double NewSaldo = Transactie.NieuweTransactie(input, 0);
-        std::cout << "New saldo: " << std::ceil(NewSaldo * 100) / 100 << std::endl;
+        std::cout << "Enter your transaction amount: ";
+        float amount;
+        while (!(std::cin >> amount) || amount < 0)
+        {
+            std::cout << "Invalid amount. Please enter a positive number: ";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+
+        bool isDeposit = (type == "d");
+        Transactie transaction(isDeposit ? amount : -amount, isDeposit);
+        rekening.updateBalance(transaction.amount);
+
+        std::cout << rekening << std::endl; // Using the friend ostream operator
+
+        std::cout << "Do you want to perform another transaction? (yes/no): ";
+        std::cin >> input;
+        continueTransaction = (input == "yes");
     }
+
+    std::cout << "Final balance: " << rekening << std::endl;
     return 0;
 }
