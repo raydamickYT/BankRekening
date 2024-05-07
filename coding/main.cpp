@@ -33,10 +33,15 @@ int main()
         }
 
         bool isDeposit = (type == "d");
-        Transactie transaction(isDeposit ? amount : -amount, isDeposit);
-        rekening.updateBalance(transaction.amount);
+        Transactie transaction(amount, isDeposit);
 
-        std::cout << rekening << std::endl; // Using the friend ostream operator
+        if (isDeposit)
+            rekening += transaction;  // Use the += operator for deposits
+        else
+            rekening -= transaction;  // Use the -= operator for withdrawals
+
+
+        std::cout << rekening << std::endl; // printing the full transaction + transaction history
 
         std::cout << "Do you want to perform another transaction? (yes/no): ";
         std::cin >> input;
