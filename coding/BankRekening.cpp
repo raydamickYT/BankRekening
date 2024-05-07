@@ -1,35 +1,42 @@
 #include "BankRekening.h"
 #include <iostream>
 
-// Implement the addition operator to handle deposit transactions
+
 BankRekening &BankRekening::operator+=(const Transactie &trans)
 {
-    updateBalance(trans.getAmount()); // Assuming Transactie has getAmount() to return the transaction amount
+    updateBalance(trans.getAmount()); 
     transactionHistory.push_back(trans);
     return *this;
 }
 
-// Implement the subtraction operator to handle withdrawal transactions
 BankRekening &BankRekening::operator-=(const Transactie &trans)
 {
-    updateBalance(-trans.getAmount()); // Assuming Transactie has getAmount() to return the transaction amount
+    updateBalance(-trans.getAmount()); 
     transactionHistory.push_back(trans);
     return *this;
 }
 
-// Method to update the balance, ensuring encapsulation
 void BankRekening::updateBalance(double amt)
 {
     balance += amt;
 }
 
-// Method to get the current balance, ensures data integrity
 double BankRekening::getBalance() const
 {
     return balance;
 }
-// Optional: Method to get transaction history
+
 std::vector<Transactie> BankRekening::getTransactionHistory() const
 {
     return transactionHistory;
+}
+
+std::ostream &operator<<(std::ostream &os, const BankRekening &rekening)
+{
+    os << "Current balance: " << std::ceil(rekening.getBalance() * 100) / 100;
+    for (const auto &trans : rekening.getTransactionHistory())
+    {
+        os << "\nTransaction: " << trans;
+    }
+    return os;
 }

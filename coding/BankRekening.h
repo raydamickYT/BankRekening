@@ -21,19 +21,9 @@ public:
     double getBalance() const;
     std::vector<Transactie> getTransactionHistory() const;
 
+    friend std::ostream &operator<<(std::ostream &os, const BankRekening &rekening);
 
 private:
-    double balance; // Balance should be private to protect data integrity
+    double balance;
     std::vector<Transactie> transactionHistory;
 };
-
-// Definition of the friend function outside the class
-inline std::ostream &operator<<(std::ostream &os, const BankRekening &rekening)
-{
-    os << "Current balance: " << std::ceil(rekening.getBalance() * 100) / 100;
-    for (const auto &trans : rekening.getTransactionHistory())
-    {
-        os << "\nTransaction: " << trans; // Assuming Transactie has an overloaded << operator
-    }
-    return os;
-}

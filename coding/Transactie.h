@@ -3,6 +3,8 @@
 #include <string>
 #include <chrono>
 
+//NOTE: I declared the functions in the header file since they're small functions that don't do a whole lot.
+
 class Transactie
 {
 public:
